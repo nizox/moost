@@ -1,0 +1,49 @@
+if (DEFINED UNIX)
+
+	if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+		set(IC_DEFINITIONS
+			-DUNIX -DLINUX
+		)
+
+		set(IC_LINK_DEPENDENCIES
+			-ldl
+		)
+	elseif (${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
+		set(IC_DEFINITIONS
+			-DUNIX -DFREEBSD
+		)
+	endif()
+
+elseif (DEFINED WIN32)
+		set(IC_DEFINITIONS
+			-DWINDOWS
+		)
+
+		if (DEFINED WIN32)
+			set(IC_LINK_DEPENDENCIES
+				Ws2_32
+			)
+		endif()
+endif()
+
+add_definitions(
+	${MOOST_DEFINITIONS}
+	${IC_DEFINITIONS}
+)
+
+include_directories(
+	${MOOST_INCLUDE_DIR}
+	${IC_INCLUDE_DIR}
+)
+
+set(IC_DEFINITIONS
+	${IC_DEFINITIONS}
+PARENT_SCOPE)
+
+set(IC_INCLUDE_DIR
+	${IC_INCLUDE_DIR}
+PARENT_SCOPE)
+
+set(IC_LINK_DEPENDENCIES
+	${IC_LINK_DEPENDENCIES}
+PARENT_SCOPE)
